@@ -2,7 +2,7 @@
   
 ## English  
 This is a RogueLike Unity3D project.  
-I Livestream it on Twitch [here](https://www.twitch.tv/macmist) (Mostly in French though)
+I Livestream it on Twitch [here](https://www.twitch.tv/macmist) (Mostly in French though)  
 Rediffusions will soon be available on YouTube.  
 Commits are usually do right after a live session.  
 I try to comment the code at most.  
