@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Simple GUI class, with two button, might change or even be deleted
+/// It is juste for test purpose for now.
+/// </summary>
 public class GUI : MonoBehaviour {
     private Dungeon _dungeon;
     private AABB _bounds;
