@@ -167,4 +167,9 @@ public class AABB {
         }
         texture.Apply();
     }
+
+    public override string ToString()
+    {
+        return "center: " + center.ToString() + " half: " + half.ToString(); 
+    }
 }

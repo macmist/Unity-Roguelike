@@ -95,4 +95,10 @@ public class XY {
     {
         return new XY(a.x / n, a.y / n);
     }
+
+
+    public override string ToString()
+    {
+        return "X: " + x + "; Y: " + y;
+    }
 }

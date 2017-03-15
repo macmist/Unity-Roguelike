@@ -37,9 +37,12 @@ public class Room : AABB {
         if (boundaries.half.x < Dungeon.MIN_ROOM_HALFSIZE || boundaries.half.y < Dungeon.MIN_ROOM_HALFSIZE)
             return null;
 
+        int maxSizeX = Mathf.Min(boundaries.half.x, Dungeon.MAX_ROOM_HALFSIZE);
+        int maxSizeY = Mathf.Min(boundaries.half.y, Dungeon.MAX_ROOM_HALFSIZE);
+
         // Create random width
-        int width = Random.Range(Dungeon.MIN_ROOM_HALFSIZE, boundaries.half.x - 1);
-        int height = Random.Range(Dungeon.MIN_ROOM_HALFSIZE, boundaries.half.y - 1);
+        int width = Random.Range(Dungeon.MIN_ROOM_HALFSIZE, maxSizeX);
+        int height = Random.Range(Dungeon.MIN_ROOM_HALFSIZE, maxSizeY);
 
         // We don't want the room to go outside the box
         int maxx = boundaries.Right() - width;

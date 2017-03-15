@@ -44,12 +44,18 @@ public class Dungeon  {
     /// <summary>
     /// Describes the minimal half size of a room
     /// </summary>
-    public static int MIN_ROOM_HALFSIZE = 1;
+    public static int MIN_ROOM_HALFSIZE = 2;
+
+
+    /// <summary>
+    /// The max half size of a room
+    /// </summary>
+    public static int MAX_ROOM_HALFSIZE = 12;
 
     /// <summary>
     /// Describes the default size of the map
     /// </summary>
-    private static int DEFAULT_SIZE = 100;
+    private static int DEFAULT_SIZE = 96;
 
 
     /// <summary>

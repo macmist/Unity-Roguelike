@@ -26,5 +26,13 @@ public class GUI : MonoBehaviour {
         {
             _bounds.Draw(_dungeon.Texture);
         }
+        if (GUILayout.Button("Draw tree limits"))
+        {
+            gameObject.GetComponent<Generator>().DrawTreeLimits();
+        }
+        if (GUILayout.Button("Draw tree rooms"))
+        {
+            gameObject.GetComponent<Generator>().DrawTreeRooms();
+        }
     }
 }
