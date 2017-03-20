@@ -2,16 +2,30 @@
   
 ## English  
 This is a RogueLike Unity3D project.  
-I Livestream it on Twitch [here](https://www.twitch.tv/macmist) (Mostly in French though)  
-Rediffusions are available [here](https://www.youtube.com/playlist?list=PLSgE-fEdCA6fRJhZM3DzK5WPKvaUClFnQ)  
-Commits are usually do right after a live session.  
-I try to comment the code at most.  
+I try to comment the code as much as possible.  
 Any suggestion appreciated.  
+
+### Features at this point
+- Use of quadtree to split the level random sized zones
+- Random room creation inside of tree's zones
+- Visualization on a 2D texture
+
+### Test the project
+- Download/Clone the repository
+- Open in Unity3D
+- Click Play button
   
 ## French  
 Ceci est un projet de RogueLike fais sous Unity3D.  
-Je le développe en live sur Twitch [à cette adresse](https://www.twitch.tv/macmist)  
-Les rediffusions sont disponibles [à cette adresse](https://www.youtube.com/playlist?list=PLSgE-fEdCA6fRJhZM3DzK5WPKvaUClFnQ)  
-Je commit en général juste après chaque live.  
 J'essaie de commenter le code le mieux possible.  
 Tout type de remarque ou suggestion apprécié.  
+
+### Fonctionnalités présentes à ce niveau
+- Utilisation de quadtrees pour séparer le niveau en zones de taille aléatoire
+- Création de pièces à l'intérieur de ces zones
+- Visualisation du résultat sur une texture 2D
+
+### Tester le projet
+- Telecharger/Cloner le dépôt
+- L'ouvrir dans Unity3D
+- Cliquer sur play
