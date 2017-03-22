@@ -62,7 +62,8 @@ public class Quadtree {
         if (wh.x < Dungeon.MIN_ROOM_HALFSIZE + 2 || wh.y < Dungeon.MIN_ROOM_HALFSIZE + 2)
             return;
 
-
+        
+        
         // Make sure they are even numbers
         int x = _box.Left() + 2 * Random.Range(Dungeon.MIN_ROOM_HALFSIZE + 1, _box.half.x - Dungeon.MIN_ROOM_HALFSIZE);
         int y = _box.Bottom() + 2 * Random.Range(Dungeon.MIN_ROOM_HALFSIZE + 1, _box.half.y - Dungeon.MIN_ROOM_HALFSIZE);
@@ -123,7 +124,10 @@ public class Quadtree {
 
         // Else add room to current node
         if (_northEast == null && _northWest == null && _southEast == null && _southWest == null)
+        {
             _room = Room.CreateRandomRoom(_box);
+            Dungeon.GetInstance().AddRoomToTiles(_room);
+        }
     }
 
     /// <summary>
@@ -145,5 +149,54 @@ public class Quadtree {
         // Else draw current's node room
         if (_northEast == null && _northWest == null && _southEast == null && _southWest == null)
             _room.Draw(texture);
+    }
+
+    /// <summary>
+    /// Recursively links the rooms of the tree
+    /// </summary>
+    /// <param name="direction">The direction where the current quadtree is</param>
+    /// <returns>The most logical room to link</returns>
+    public Room LinkRooms(string direction)
+    {
+        // If we are in a leaf, we return its room
+        if (_northEast == null && _northWest == null && _southEast == null && _southWest == null)
+            return _room;
+
+        Room ne = null;
+        Room nw = null;
+        Room se = null;
+        Room sw = null;
+        Dungeon d = Dungeon.GetInstance();
+
+        // Retrieves rooms from each subtree
+        if (_northEast != null)
+            ne = _northEast.LinkRooms("NE");
+        if (_northWest != null)
+            nw = _northWest.LinkRooms("NW");
+        if (_southEast != null)
+            se = _southEast.LinkRooms("SE");
+        if (_southWest != null)
+            sw = _southWest.LinkRooms("SW");
+        
+        // Links rooms in a square
+        d.CreateCorridorBetweenRooms(ne, nw);
+        d.CreateCorridorBetweenRooms(nw, sw);
+        d.CreateCorridorBetweenRooms(sw, se);
+        d.CreateCorridorBetweenRooms(se, ne);
+
+        // Return the room opposite to the current position
+        switch(direction)
+        {
+            case "NE":
+                return sw;
+            case "NW":
+                return se;
+            case "SE":
+                return nw;
+            case "SW":
+                return ne;
+            default:
+                return null;
+        }
     }
 }

@@ -34,5 +34,13 @@ public class GUI : MonoBehaviour {
         {
             gameObject.GetComponent<Generator>().DrawTreeRooms();
         }
+        if (GUILayout.Button("Draw Tiles"))
+        {
+            gameObject.GetComponent<Generator>().DrawTiles();
+        }
+        if (GUILayout.Button("Link Rooms"))
+        {
+            gameObject.GetComponent<Generator>().LinkRooms();
+        }
     }
 }
