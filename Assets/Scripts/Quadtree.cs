@@ -152,6 +152,28 @@ public class Quadtree {
     }
 
     /// <summary>
+    /// Recursively Removes the corridors
+    /// </summary>
+    public void RemoveCorridor()
+    {
+        // If children exist, call AddRoom to em
+        if (_northEast != null)
+            _northEast.RemoveCorridor();
+        if (_northWest != null)
+            _northWest.RemoveCorridor();
+        if (_southEast != null)
+            _southEast.RemoveCorridor();
+        if (_southWest != null)
+            _southWest.RemoveCorridor();
+
+        // Else add room to current node
+        if (_northEast == null && _northWest == null && _southEast == null && _southWest == null)
+        {
+            Dungeon.GetInstance().RemoveUselessCorridors(_room);
+        }
+    }
+
+    /// <summary>
     /// Recursively links the rooms of the tree
     /// </summary>
     /// <param name="direction">The direction where the current quadtree is</param>

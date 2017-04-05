@@ -151,6 +151,15 @@ public class AABB {
         return half * 2;
     }
 
+    public bool ContainsPoint(XY p)
+    {
+        if (p.x < _center.x - _half.x) return false;
+        if (p.x >= _center.x + _half.x) return false;
+        if (p.y < _center.y - _half.y) return false;
+        if (p.y >= _center.y + _half.y) return false;
+        return true;
+    }
+
     /// <summary>
     /// Draws the box with a random color to a texture
     /// </summary>

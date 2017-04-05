@@ -27,6 +27,21 @@ public class Room : AABB {
     }
 
     /// <summary>
+    /// Check if the point is whitin a d distance from the room
+    /// </summary>
+    /// <param name="p">the point to check</param>
+    /// <param name="d">the distance</param>
+    /// <returns>If the point is at a d distance from the room</returns>
+    public bool IsNext(XY p, int d)
+    {
+        if (p.x < _center.x - _half.x - d) return false;
+        if (p.x >= _center.x + _half.x + d) return false;
+        if (p.y < _center.y - _half.y - d)  return false; 
+        if (p.y >= _center.y + _half.y + d) return false;
+        return true;
+    }
+
+    /// <summary>
     /// Tries to create a random room inside a given box.
     /// It lefts at least one tile between the box and the room
     /// </summary>

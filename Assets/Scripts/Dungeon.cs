@@ -73,6 +73,8 @@ public class Dungeon  {
     /// </summary>
     private Color _corridorColor = Color.blue;
 
+    private AStar _astar;
+
     /// <summary>
     /// Default constructor, creates a 100*100 dungeon with its center at (50,50)
     /// </summary>
@@ -175,6 +177,14 @@ public class Dungeon  {
     {
         _tree.DrawRoom(_texture);
     }
+
+    /// <summary>
+    /// Removes all useless corridors from the tree
+    /// </summary>
+    public void RemoveUselessCorridorsFromTree()
+    {
+        _tree.RemoveCorridor();
+    }
     #endregion
 
     #region Tiles functions
@@ -239,36 +249,38 @@ public class Dungeon  {
     /// </summary>
     /// <param name="x">the position in x</param>
     /// <param name="y">the position in y</param>
-    /// <param name="vertical">The movement is vertical</param>
-    /// <param name="first">It is the first of the line</param>
-    /// <returns></returns>
-    public bool AddCorridor(int x, int y, bool vertical, bool first)
+    public void AddCorridor(int x, int y)
     {
-        bool canAdd = true;
-        // if we can add a corridor
         if (_tiles[x, y] == Tile.WALL)
         {
-            if (vertical)
-            {
-                // If the movement is vertical, we check if it has corridor right and left to it
-                if (x - 1 <= 0 || _tiles[x - 1, y] == Tile.CORRIDOR || x + 1 >= Boundaries.Size().x || _tiles[x + 1, y] == Tile.CORRIDOR)
-                    canAdd = false;       
-            }
-            else
-            {
-                // Else we check if it has corridor up and down to it
-                if (y - 1 <= 0 || _tiles[x, y - 1] == Tile.CORRIDOR || y + 1 >= Boundaries.Size().y || _tiles[x, y + 1] == Tile.CORRIDOR)
-                    canAdd = false;
-            }
-            // If this is the first corridor of the line, or if we are allowed to, we draw
-            if (first || canAdd)
-                AddToTilesAndTexture(x, y, Tile.CORRIDOR, _corridorColor);
-            // Return false if we found a corridor next. Then first will be false
-            return canAdd;
+             AddToTilesAndTexture(x, y, Tile.CORRIDOR, _corridorColor);
         }
-        return canAdd;
     }
 
+    /// <summary>
+    /// Checks if the current point has corridor next
+    /// </summary>
+    /// <param name="x">The x position</param>
+    /// <param name="y">The y position</param>
+    /// <param name="checkVertically">If we check for neighbors vertically or not</param>
+    /// <returns>If the point has corridors next</returns>
+    public bool HasCorridorNext(int x, int y, bool checkVertically)
+    {
+        if (checkVertically)
+            return ((y - 1 >= 0 && _tiles[x, y - 1] == Tile.CORRIDOR) || (y + 1 < _boundaries.Top() && _tiles[x, y + 1] == Tile.CORRIDOR));
+        return ((x - 1 >= 0 && _tiles[x - 1, y] == Tile.CORRIDOR) || (x + 1 < _boundaries.Right() && _tiles[x + 1, y] == Tile.CORRIDOR));
+    }
+
+    /// <summary>
+    /// Checks if the corridor has corridor next
+    /// </summary>
+    /// <param name="x">The x position</param>
+    /// <param name="y">The y position</param>
+    /// <returns>If the corridor has corridor next</returns>
+    public bool HasCorridorAll(int x, int y)
+    {
+        return HasCorridorNext(x, y, true) || HasCorridorNext(x, y, false);
+    }
 
     /// <summary>
     /// Creates a corridor between two rooms
@@ -281,22 +293,89 @@ public class Dungeon  {
         if (a == null || b == null)
             return;
 
-        //Take the min and max x and y
-        int minx = Mathf.Min(a.center.x, b.center.x);
-        int maxx = Mathf.Max(a.center.x, b.center.x);
+        if (_astar == null)
+            _astar = new AStar(_tiles);
 
-        int miny = Mathf.Min(a.center.y, b.center.y);
-        int maxy = Mathf.Max(a.center.y, b.center.y);
+        Node path = _astar.DoAStar(a.center, b.center, a, b);
 
-        bool first = false;
-        // Draw a line from min to max x, at b.center.y
-        for (int i = minx; i <= maxx; ++i)
-            first = AddCorridor(i, b.center.y, false, first);
+        while(path != null)
+        {
+            AddCorridor(path.Position.x, path.Position.y);
+            path = path.Parent;
+        }
 
-        first = false;
-        // Draw a line from min to max y, at a.center.x
-        for (int j = miny; j <= maxy; j++)
-           first = AddCorridor(a.center.x, j, true, first);
+        ////Take the min and max x and y
+        //int minx = Mathf.Min(a.center.x, b.center.x);
+        //int maxx = Mathf.Max(a.center.x, b.center.x);
+
+        //int miny = Mathf.Min(a.center.y, b.center.y);
+        //int maxy = Mathf.Max(a.center.y, b.center.y);
+
+        //bool firstFound = false;
+        //// Draw a line from min to max x, at b.center.y
+        //for (int i = minx; i <= maxx; ++i)
+        //{
+        //    bool hasCorridorNext = HasCorridorNext(i, b.center.y, true);
+        //    bool nextHasCorridorNext = HasCorridorNext(i + 1, b.center.y, true);
+        //    if (i == minx && (hasCorridorNext || nextHasCorridorNext))
+        //        firstFound = true;
+        //    if (!hasCorridorNext || !firstFound || (hasCorridorNext && !nextHasCorridorNext))
+        //        AddCorridor(i, b.center.y);
+        //    if (i == maxx - 1 && nextHasCorridorNext)
+        //        break;
+        //    firstFound = nextHasCorridorNext;
+        //}
+
+        //firstFound = false;
+        //// Draw a line from min to max y, at a.center.x
+        //for (int j = miny; j <= maxy; j++)
+        //{
+        //    bool hasCorridorNext = HasCorridorNext(a.center.x, j, false);
+        //    bool nextHasCorridorNext = HasCorridorNext(a.center.x, j + 1, false);
+        //    if (j == miny && (hasCorridorNext || nextHasCorridorNext))
+        //        firstFound = true;
+        //    if (!hasCorridorNext || !firstFound || (hasCorridorNext && !nextHasCorridorNext))
+        //        AddCorridor(a.center.x, j);
+        //    if (j == maxy - 1 && nextHasCorridorNext)
+        //        break;
+        //    firstFound = nextHasCorridorNext;
+        //}
+        //RemoveUselessCorridors(a);
+        //RemoveUselessCorridors(b);
+    }
+
+    /// <summary>
+    /// Removes all useless corridors next to a room
+    /// </summary>
+    /// <param name="r">The room to remove corridors from</param>
+    public void RemoveUselessCorridors(Room r)
+    {
+        if (r.Left() - 1 >= 0)
+            RemoveCorridorLoop(r.Bottom() + 1, r.Top() - 1, r.Left() - 1, true);
+
+        RemoveCorridorLoop(r.Bottom() + 1, r.Top() - 1, r.Right(), true);
+        if (r.Bottom() - 1 >= 0)
+            RemoveCorridorLoop(r.Left() + 1, r.Right() - 1, r.Bottom() - 1, false);
+
+        RemoveCorridorLoop(r.Left() + 1, r.Right() - 1, r.Top(), false);
+
+    }
+
+    private void RemoveCorridorLoop(int min, int max, int fixedPos, bool verticalMovement)
+    {
+        for (int i = min; i < max; ++i)
+        {
+            if (verticalMovement)
+            {
+                if (!HasCorridorNext(fixedPos, i, false))
+                    _tiles[fixedPos, i] = Tile.WALL;
+            }
+            else
+            {
+                if (!HasCorridorNext(i, fixedPos, true))
+                    _tiles[i, fixedPos] = Tile.WALL;
+            }
+        }
     }
     #endregion
 }

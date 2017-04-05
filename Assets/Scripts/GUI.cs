@@ -42,5 +42,10 @@ public class GUI : MonoBehaviour {
         {
             gameObject.GetComponent<Generator>().LinkRooms();
         }
+        if (GUILayout.Button("Remove Useless Corridors"))
+        {
+            _dungeon.RemoveUselessCorridorsFromTree();
+            _dungeon.TilesToTexture();
+        }
     }
 }
