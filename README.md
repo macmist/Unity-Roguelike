@@ -8,6 +8,7 @@ Any suggestion appreciated.
 ### Features at this point
 - Use of quadtree to split the level random sized zones
 - Random room creation inside of tree's zones
+- Linking room simply or using A* Algorithm
 - Visualization on a 2D texture
 
 ### Test the project
@@ -23,6 +24,7 @@ Tout type de remarque ou suggestion apprécié.
 ### Fonctionnalités présentes à ce niveau
 - Utilisation de quadtrees pour séparer le niveau en zones de taille aléatoire
 - Création de pièces à l'intérieur de ces zones
+- Reliage des pièces de manière simple ou à l'aide de l'algorithme A*
 - Visualisation du résultat sur une texture 2D
 
 ### Tester le projet
