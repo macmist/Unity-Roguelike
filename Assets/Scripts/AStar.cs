@@ -121,7 +121,7 @@ public class AStar
     private bool IsInOrNearbyRoom(XY p)
     {
         for (int i = Mathf.Max(0, p.x - 1); i <= p.x + 1 && i < _width; ++i)
-            for (int j = Mathf.Max(0, p.y - 1); j <= p.y && j < _height; ++j)
+            for (int j = Mathf.Max(0, p.y - 1); j <= p.y + 1 && j < _height; ++j)
                 if (_graph[i, j] == Tile.FLOOR)
                     return true;
         return false;
