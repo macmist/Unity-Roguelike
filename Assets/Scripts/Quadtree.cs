@@ -59,14 +59,14 @@ public class Quadtree {
             return;
         // Or if it is not possible to store 4 rooms in the space
         XY wh = _box.half / 2;
-        if (wh.x < Dungeon.MIN_ROOM_HALFSIZE + 2 || wh.y < Dungeon.MIN_ROOM_HALFSIZE + 2)
+        if (wh.x < Dungeon.MIN_ROOM_HALFSIZE + 2 * Dungeon.MIN_ROOM_MARGIN || wh.y < Dungeon.MIN_ROOM_HALFSIZE + 2 * Dungeon.MIN_ROOM_MARGIN)
             return;
 
         
         
         // Make sure they are even numbers
-        int x = _box.Left() + 2 * Random.Range(Dungeon.MIN_ROOM_HALFSIZE + 1, _box.half.x - Dungeon.MIN_ROOM_HALFSIZE);
-        int y = _box.Bottom() + 2 * Random.Range(Dungeon.MIN_ROOM_HALFSIZE + 1, _box.half.y - Dungeon.MIN_ROOM_HALFSIZE);
+        int x = _box.Left() + 2 * Random.Range(Dungeon.MIN_ROOM_HALFSIZE + Dungeon.MIN_ROOM_MARGIN, _box.half.x - Dungeon.MIN_ROOM_HALFSIZE - Dungeon.MIN_ROOM_MARGIN);
+        int y = _box.Bottom() + 2 * Random.Range(Dungeon.MIN_ROOM_HALFSIZE + Dungeon.MIN_ROOM_MARGIN, _box.half.y - Dungeon.MIN_ROOM_HALFSIZE - Dungeon.MIN_ROOM_MARGIN);
 
 
         // The half sizes

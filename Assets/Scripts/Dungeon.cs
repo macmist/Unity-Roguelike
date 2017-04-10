@@ -53,6 +53,8 @@ public class Dungeon  {
     /// </summary>
     public static int MAX_ROOM_HALFSIZE = 12;
 
+    public static int MIN_ROOM_MARGIN = 2;
+
     /// <summary>
     /// Describes the default size of the map
     /// </summary>
@@ -214,6 +216,11 @@ public class Dungeon  {
     /// <param name="room">The room to add</param>
     public void AddRoomToTiles(Room room)
     {
+        if (room == null)
+        {
+            Debug.Log("OOps there is a null room");
+            return;
+        }
         for (int i = room.Left(); i < room.Right(); ++i)
             for (int j = room.Bottom(); j < room.Top(); ++j)
                 _tiles[i, j] = Tile.FLOOR;

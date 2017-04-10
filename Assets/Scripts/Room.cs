@@ -49,22 +49,22 @@ public class Room : AABB {
     /// <returns>A new Room or null if the boundaries is too small</returns>
     public static Room CreateRandomRoom(AABB boundaries)
     {
-        if (boundaries.half.x < Dungeon.MIN_ROOM_HALFSIZE || boundaries.half.y < Dungeon.MIN_ROOM_HALFSIZE)
+        if (boundaries.half.x < Dungeon.MIN_ROOM_HALFSIZE + Dungeon.MIN_ROOM_MARGIN || boundaries.half.y < Dungeon.MIN_ROOM_HALFSIZE + Dungeon.MIN_ROOM_MARGIN)
             return null;
 
-        int maxSizeX = Mathf.Min(boundaries.half.x, Dungeon.MAX_ROOM_HALFSIZE);
-        int maxSizeY = Mathf.Min(boundaries.half.y, Dungeon.MAX_ROOM_HALFSIZE);
+        int maxSizeX = Mathf.Min(boundaries.half.x - Dungeon.MIN_ROOM_MARGIN, Dungeon.MAX_ROOM_HALFSIZE);
+        int maxSizeY = Mathf.Min(boundaries.half.y - Dungeon.MIN_ROOM_MARGIN, Dungeon.MAX_ROOM_HALFSIZE);
 
         // Create random width
         int width = Random.Range(Dungeon.MIN_ROOM_HALFSIZE, maxSizeX);
         int height = Random.Range(Dungeon.MIN_ROOM_HALFSIZE, maxSizeY);
 
         // We don't want the room to go outside the box
-        int maxx = boundaries.Right() - width;
-        int minx = boundaries.Left() + width + 1;
+        int maxx = boundaries.Right() - width - (Dungeon.MIN_ROOM_MARGIN - 1);
+        int minx = boundaries.Left() + width + Dungeon.MIN_ROOM_MARGIN;
 
-        int miny = boundaries.Bottom() + height + 1;
-        int maxy = boundaries.Top() - height;
+        int miny = boundaries.Bottom() + height + Dungeon.MIN_ROOM_MARGIN;
+        int maxy = boundaries.Top() - height - (Dungeon.MIN_ROOM_MARGIN - 1);
 
         // Create random center
         int x = Random.Range(minx, maxx);
