@@ -9,13 +9,13 @@ using UnityEngine;
 public class GUI : MonoBehaviour {
     private Dungeon _dungeon;
     private AABB _bounds;
-	// Use this for initialization
-	void Start () {
-		_dungeon = Dungeon.GetInstance();
+    // Use this for initialization
+    void Start () {
+        _dungeon = Dungeon.GetInstance();
         _bounds = new AABB(new XY(30, 30), new XY(20, 20));
         
     }
-	
+    
     void OnGUI()
     {
         if (GUILayout.Button("Add Room"))
@@ -46,6 +46,20 @@ public class GUI : MonoBehaviour {
         {
             _dungeon.RemoveUselessCorridorsFromTree();
             _dungeon.TilesToTexture();
+        }
+        if (!_dungeon.MazeReady())
+        {
+            if (GUILayout.Button("Create Maze"))
+            {
+                _dungeon.CreateMaze();
+            }
+        }
+        else
+        {
+            if (GUILayout.Button("Open rooms"))
+                _dungeon.OpenRooms();
+            if (GUILayout.Button("Remove dead ends"))
+                _dungeon.RemoveDeadEnds();
         }
     }
 }

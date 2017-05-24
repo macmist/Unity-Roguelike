@@ -75,7 +75,20 @@ public class Dungeon  {
     /// </summary>
     private Color _corridorColor = Color.blue;
 
+    /// <summary>
+    /// The AStar solver
+    /// </summary>
     private AStar _astar;
+
+    /// <summary>
+    /// The maze generator
+    /// </summary>
+    private Maze _maze;
+
+    /// <summary>
+    /// If the maze has been constructed
+    /// </summary>
+    private bool _mazeConstructed = false;
 
     /// <summary>
     /// Default constructor, creates a 100*100 dungeon with its center at (50,50)
@@ -180,6 +193,26 @@ public class Dungeon  {
         _tree.DrawRoom(_texture);
     }
 
+
+    /// <summary>
+    /// Adds a room to the room list
+    /// </summary>
+    /// <param name="room">The room to add</param>
+    public void AddRoomToList(Room room)
+    {
+        if (_rooms == null)
+            _rooms = new List<Room>();
+        _rooms.Add(room);
+    }
+
+    /// <summary>
+    /// Returns the room list
+    /// </summary>
+    /// <returns>The room list</returns>
+    public List<Room> GetRooms()
+    {
+        return _rooms;
+    }
     /// <summary>
     /// Removes all useless corridors from the tree
     /// </summary>
@@ -383,6 +416,46 @@ public class Dungeon  {
                     _tiles[i, fixedPos] = Tile.WALL;
             }
         }
+
+    }
+    #endregion
+
+    #region Maze
+    /// <summary>
+    /// Creates the maze. Initialize it first if null
+    /// </summary>
+    public void CreateMaze()
+    {
+        if (_maze == null)
+            _maze = new Maze(_tiles);
+        
+        GameObject.Find("Generator").GetComponent<Generator>().StartCoroutine(_maze.CreateMaze());
+        _mazeConstructed = true;
+    }
+
+    /// <summary>
+    /// Is the maze constructed ?
+    /// </summary>
+    /// <returns>If the maze is constructed</returns>
+    public bool MazeReady()
+    {
+        return  _mazeConstructed;
+    }
+
+    /// <summary>
+    /// Opens the rooms to the maze
+    /// </summary>
+    public void OpenRooms()
+    {
+        _maze.OpenRooms();
+    }
+
+    /// <summary>
+    /// Delete every dead end (will remove everything if no rooms or no connection)
+    /// </summary>
+    public void RemoveDeadEnds()
+    {
+        GameObject.Find("Generator").GetComponent<Generator>().StartCoroutine(_maze.RemoveDeadEnds());
     }
     #endregion
 }

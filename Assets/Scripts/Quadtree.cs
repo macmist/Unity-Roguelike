@@ -126,6 +126,7 @@ public class Quadtree {
         if (_northEast == null && _northWest == null && _southEast == null && _southWest == null)
         {
             _room = Room.CreateRandomRoom(_box);
+            Dungeon.GetInstance().AddRoomToList(_room);
             Dungeon.GetInstance().AddRoomToTiles(_room);
         }
     }

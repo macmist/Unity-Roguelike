@@ -6,7 +6,7 @@ using UnityEngine;
 /// Describes a Room. Basically it is a AABB with a few more things
 /// </summary>
 public class Room : AABB {
-
+    private List<XY> _connectors;
     /// <summary>
     /// Constructor
     /// </summary>
@@ -39,6 +39,35 @@ public class Room : AABB {
         if (p.y < _center.y - _half.y - d)  return false; 
         if (p.y >= _center.y + _half.y + d) return false;
         return true;
+    }
+
+    /// <summary>
+    /// Adds a connector to the room
+    /// </summary>
+    /// <param name="p">The connector to add</param>
+    public void AddConnector(XY p)
+    {
+        if (_connectors == null)
+            _connectors = new List<XY>();
+        _connectors.Add(p);
+    }
+
+    /// <summary>
+    /// Get the connectors list
+    /// </summary>
+    /// <returns>The list of connectors</returns>
+    public List<XY> GetConnectors()
+    {
+        return _connectors;
+    }
+
+    /// <summary>
+    /// Removes a connector from the list
+    /// </summary>
+    /// <param name="p">The connector to delete</param>
+    public void RemoveConnector(XY p)
+    {
+        _connectors.Remove(p);
     }
 
     /// <summary>

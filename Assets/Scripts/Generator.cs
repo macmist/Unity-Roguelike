@@ -20,7 +20,7 @@ public class Generator : MonoBehaviour {
     /// <summary>
     /// Creates the dungeon and initializes the plain material
     /// </summary>
-	void Start () {
+    void Start () {
         _dungeon = Dungeon.GetInstance();
         Material material = new Material(Shader.Find("Diffuse"));
         material.mainTexture = _dungeon.Texture;
@@ -31,9 +31,6 @@ public class Generator : MonoBehaviour {
         
     }
 
-	void Update () {
-
-	}
 
     /// <summary>
     /// Draws the limits of the tree
