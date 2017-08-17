@@ -73,6 +73,7 @@ public class Generator : MonoBehaviour {
 
     public void To3D()
     {
+        _dungeon.RemoveUnwantedWalls();
         GameObject floorPrefab = Resources.Load("Prefabs/FloorPrefab") as GameObject;
         GameObject wallPrefab = Resources.Load("Prefabs/WallPrefab") as GameObject;
 
@@ -89,6 +90,15 @@ public class Generator : MonoBehaviour {
 
         Tile[,] tiles = _dungeon.Tiles;
 
+        GameObject rooms = new GameObject("Rooms");
+        rooms.transform.parent = dungeon.transform;
+
+        int c = 0;
+        foreach(Room r in _dungeon.GetRooms())
+        {
+            GameObject room = RoomTo3D(r, c, floorPrefab, 0);
+            room.transform.parent = rooms.transform;
+        }
 
         for (int i = 0; i < tiles.GetLength(0); ++i)
             for (int j = 0; j < tiles.GetLength(1); ++j)
@@ -98,15 +108,30 @@ public class Generator : MonoBehaviour {
                     case Tile.WALL:
                         CreatePrefab(i * wallPrefab.transform.localScale.x, yWall, j * wallPrefab.transform.localScale.z, wallPrefab, walls);
                         break;
-                    case Tile.FLOOR:
-                        CreatePrefab(i * floorPrefab.transform.localScale.x, 0, j * floorPrefab.transform.localScale.z, floorPrefab, floors);
-                        break;
+                    //case Tile.FLOOR:
+                    //    CreatePrefab(i * floorPrefab.transform.localScale.x, 0, j * floorPrefab.transform.localScale.z, floorPrefab, floors);
+                    //    break;
                     case Tile.CORRIDOR:
                         CreatePrefab(i * floorPrefab.transform.localScale.x, 0, j * floorPrefab.transform.localScale.z, floorPrefab, floors);
                         break;
                     default: break;
                 }
             }
+    }
+
+    public GameObject RoomTo3D(Room r, int number, GameObject prefab, float yPosition)
+    {
+        GameObject room = new GameObject("Room " + number);
+
+        for (int i = r.Left(); i < r.Right(); ++ i)
+        {
+            for (int j = r.Bottom(); j < r.Top(); ++j)
+            {
+                CreatePrefab(i * prefab.transform.localScale.x, yPosition, j * prefab.transform.localScale.z, prefab, room);
+            }
+        }
+        room.AddComponent<Combine>();
+        return room;
     }
 
 

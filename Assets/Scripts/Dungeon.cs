@@ -464,4 +464,26 @@ public class Dungeon  {
     }
     #endregion
 
+    #region cleanup
+    public bool IsUnwantedWall(int x, int y)
+    {
+        for (int i = x - 1; i <= x + 1; ++i)
+            for (int j = y - 1; j <= y + 1; ++j)
+            {
+                if (i < 0 || j < 0 || i >= _tiles.GetLength(0) || j >= _tiles.GetLength(1))
+                    continue;
+                if (_tiles[i, j] == Tile.FLOOR || _tiles[i, j] == Tile.CORRIDOR)
+                    return false;
+            }
+        return true;
+    }
+
+    public void RemoveUnwantedWalls()
+    {
+        for (int x = 0; x < _tiles.GetLength(0); ++x)
+            for (int y = 0; y < _tiles.GetLength(1); ++y)
+                if (IsUnwantedWall(x, y))
+                    _tiles[x, y] = Tile.NONE;
+    }
+    #endregion
 }
