@@ -9,7 +9,8 @@ public enum Tile
 {
     WALL,
     FLOOR,
-    CORRIDOR
+    CORRIDOR,
+    NONE
 }
 
 /// <summary>
@@ -155,6 +156,11 @@ public class Dungeon  {
         get { return _boundaries; }
     }
 
+    public Tile[,] Tiles
+    {
+        get { return _tiles; }
+    }
+
 
     #region Quadtree functions
     /// <summary>
@@ -192,7 +198,6 @@ public class Dungeon  {
     {
         _tree.DrawRoom(_texture);
     }
-
 
     /// <summary>
     /// Adds a room to the room list
@@ -458,4 +463,5 @@ public class Dungeon  {
         GameObject.Find("Generator").GetComponent<Generator>().StartCoroutine(_maze.RemoveDeadEnds());
     }
     #endregion
+
 }

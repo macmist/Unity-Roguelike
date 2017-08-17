@@ -61,5 +61,9 @@ public class GUI : MonoBehaviour {
             if (GUILayout.Button("Remove dead ends"))
                 _dungeon.RemoveDeadEnds();
         }
+        if (GUILayout.Button("3D!"))
+        {
+            gameObject.GetComponent<Generator>().To3D();
+        }
     }
 }
