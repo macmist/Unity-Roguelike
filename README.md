@@ -11,6 +11,8 @@ Any suggestion appreciated.
 - Linking room simply or using A* Algorithm
 - Perfect maze generation  + room connection + dead end removal
 - Visualization on a 2D texture
+- Simple 3D generation
+- 3D optimization: rooms floors are now one single objects
 
 ### Test the project
 - Download/Clone the repository
@@ -28,6 +30,8 @@ Tout type de remarque ou suggestion apprécié.
 - Reliage des pièces de manière simple ou à l'aide de l'algorithme A*
 - Génération d'un labyrinthe parfait + reliage du labyrinthe aux pièces + suppression des impasses
 - Visualisation du résultat sur une texture 2D
+- Passage à la 3d simple
+- Optimisation 3D: 1 seul objet pour le sol par pièces
 
 ### Tester le projet
 - Telecharger/Cloner le dépôt
